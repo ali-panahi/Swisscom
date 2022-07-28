@@ -1,3 +1,0 @@
-# Swisscom
-Swisscom Interview Task
-
