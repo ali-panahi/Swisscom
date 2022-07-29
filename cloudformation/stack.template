@@ -13,6 +13,23 @@ Resources:
     Type: AWS::S3::Bucket
     Properties: 
       BucketName: !Sub ${BucketName}-s3
+	
+	S3BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: !Ref S3Bucket
+        PolicyDocument:
+          Statement:
+            -
+              Action:
+                - s3:*
+              Effect: Allow
+              Resource:
+                - !Sub arn:aws:s3:::${S3Bucket}
+                - !Sub arn:aws:s3:::${S3Bucket}/*
+              Principal:
+                AWS:
+                  - '*'
 
 Outputs:
   BucketARN:
