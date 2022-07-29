@@ -1,12 +1,13 @@
 provider "aws" {
-  access_key = "test"
-  secret_key = "test"
+  access_key = "foobar"
+  secret_key = "foobar"
   region     = "eu-central-1"
 
   s3_use_path_style           = true
   skip_credentials_validation = true
   skip_metadata_api_check     = true
   skip_requesting_account_id  = true
+
 
   endpoints {
     apigateway     = "http://localhost:4566"
@@ -34,4 +35,16 @@ provider "aws" {
     stepfunctions  = "http://localhost:4566"
     sts            = "http://localhost:4566"
   }
+}
+
+module "s3" {
+  source = "./S3"
+  bucket_name = "bucket"
+}
+
+module "DynamoDb" {
+  source = "./DynamoDb"
+  table_name = "Files"
+  attribute = "FileName"
+  hash_key = "FileName"
 }
