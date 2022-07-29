@@ -1,48 +1,17 @@
-# Swisscom
-Swisscom Interview Task
+# Technical Assignments
 
-**TEST**
-> Text that is a quote
+The goal of this assignment is to evaluate your ability to work with Terraform and AWS services. We expect that a developer with some experience should be able to solve this within one to two hours.
 
+Please commit your results to GitHub and send us the URL to your repository, so we can review your work before the interview.
 
-Use `git status` to list all new or modified files that haven't yet been committed.
+There are two assignments, one with focus on Terraform and one with focus on Cloudformation. So, we expect you to check in Terraform and Cloudformation template files. If you use additional helper frameworks to create the output files, please also check in the code you've written for these frameworks as well.
 
-This site was built using [GitHub Pages](https://pages.github.com/).
+You'll find the two parts in the folders:
+- terraform
+- cloudformation
 
-
-- George Washington
-- John Adams
-- Thomas Jefferson
+We've put together instructions in the README.md files in the two directories. All instructions have been tested on Ubuntu Linux. You are free to use other operating system as long as the checked in code can still be tested on Linux.
 
 
-
-1. James Madison
-2. James Monroe
-3. John Quincy Adams
-
-
-
-1. First list item
-   - First nested list item
-     - Second nested list item
-
-
-
-
-
-- [x] #739
-- [ ] https://github.com/octo-org/octo-repo/issues/740
-- [ ] Add delight to the experience when all tasks are complete :tada:
-
-
-
-
-
-
-
-
-
-
-
-![This is an image](https://myoctocat.com/assets/images/base-octocat.svg)
+Have fun!
 
