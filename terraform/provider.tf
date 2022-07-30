@@ -37,9 +37,8 @@ provider "aws" {
   }
 }
 
-module "s3" {
-  source = "./S3"
-  bucket_name = "bucket"
+resource "aws_s3_bucket" "bucket" {
+    bucket = "test-bucket"
 }
 
 module "DynamoDb" {
@@ -47,4 +46,29 @@ module "DynamoDb" {
   table_name = "Files"
   attribute = "FileName"
   hash_key = "FileName"
+}
+
+data "aws_caller_identity" "current" {}
+
+data "archive_file" "lambda_zip" {
+    type          = "zip"
+    source_file   = "lambda.py"
+    output_path   = "lambda.zip"
+}
+
+resource "aws_lambda_function" "test_lambda" {
+  function_name = "test_lambda"
+  role = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/AWSRoleForLambda"
+  handler = "lambda.lambda_handler"
+  runtime = "python3.6"
+  timeout = 30
+  filename = "lambda.zip"
+}
+
+resource "aws_s3_bucket_notification" "aws-lambda-trigger" {
+  bucket = "${aws_s3_bucket.bucket.id}"
+  lambda_function {
+    lambda_function_arn = "${aws_lambda_function.test_lambda.arn}"
+    events              = ["s3:ObjectCreated:*"]
+  }
 }
