@@ -14,8 +14,8 @@ def lambda_handler(event, context):
     try:
         print("Filename: ", key)
         input= {
-            'bucket_name': bucket_name,
-            'file_key': file_key
+            'bucket_name': bucket,
+            'file_key': key
         }
         
         stepFunction = boto3.client('stepfunctions', endpoint_url="http://localhost:4566", use_ssl=False, aws_access_key_id="foobar", aws_secret_access_key="foobar", region_name="eu-central-1")
