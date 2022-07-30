@@ -158,7 +158,6 @@ EOF
 }
 
 
-// Attach policy to IAM Role for Step Function
 resource "aws_iam_role_policy_attachment" "iam_for_sfn_attach_policy_invoke_lambda" {
   role       = "${aws_iam_role.iam_for_sfn.name}"
   policy_arn = "${aws_iam_policy.policy_invoke_lambda.arn}"
@@ -168,16 +167,6 @@ resource "aws_iam_role_policy_attachment" "iam_for_sfn_attach_policy_publish_sns
   role       = "${aws_iam_role.iam_for_sfn.name}"
   policy_arn = "${aws_iam_policy.policy_publish_sns.arn}"
 }
-
-
-
-
-
-
-
-
-
-
 
 resource "aws_sfn_state_machine" "sfn_state_machine" {
   name     = "sample-state-machine"
