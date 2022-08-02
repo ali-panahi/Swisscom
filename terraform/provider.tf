@@ -73,23 +73,6 @@ resource "aws_s3_bucket_notification" "aws-lambda-trigger" {
 }
 
 
-data "archive_file" "dynamodb_zip" {
-    type          = "zip"
-    source_file   = "dynamodb-function.py"
-    output_path   = "dynamodb-function.zip"
-}
-
-
-resource "aws_lambda_function" "dynamodb-function" {
-  function_name = "dynamodb-function"
-  role = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/AWSRoleForLambda"
-  handler = "dynamodb-function.lambda_handler"
-  runtime = "python3.6"
-  filename = "dynamodb-function.zip"
-}
-
-
-
 
 
 # Create IAM role for AWS Step Function
@@ -121,7 +104,7 @@ resource "aws_iam_policy" "policy_publish_sns" {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "VisualEditor0",
+            "Sid": "AllowSNS",
             "Effect": "Allow",
             "Action": [
               "sns:Publish",
@@ -144,7 +127,7 @@ resource "aws_iam_policy" "policy_invoke_lambda" {
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "VisualEditor0",
+            "Sid": "AllowLamdaInvoke",
             "Effect": "Allow",
             "Action": [
                 "lambda:InvokeFunction",
@@ -168,6 +151,7 @@ resource "aws_iam_role_policy_attachment" "iam_for_sfn_attach_policy_publish_sns
   policy_arn = "${aws_iam_policy.policy_publish_sns.arn}"
 }
 
+#Creating State Machine
 resource "aws_sfn_state_machine" "sfn_state_machine" {
   name     = "sample-state-machine"
   role_arn = "${aws_iam_role.iam_for_sfn.arn}"
@@ -189,4 +173,20 @@ resource "aws_sfn_state_machine" "sfn_state_machine" {
 }
 }
 EOF
+}
+
+
+data "archive_file" "dynamodb_zip" {
+    type          = "zip"
+    source_file   = "dynamodb-function.py"
+    output_path   = "dynamodb-function.zip"
+}
+
+
+resource "aws_lambda_function" "dynamodb-function" {
+  function_name = "dynamodb-function"
+  role = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/AWSRoleForLambda"
+  handler = "dynamodb-function.lambda_handler"
+  runtime = "python3.6"
+  filename = "dynamodb-function.zip"
 }
