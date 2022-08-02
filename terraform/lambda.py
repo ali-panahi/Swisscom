@@ -17,6 +17,16 @@ def lambda_handler(event, context):
             'bucket_name': bucket,
             'file_key': key
         }
+
+	### If you don't know ARN of stateMachine, You can use this part for finding its ARN ###
+        ########################################################################################
+	#sfclient = boto3.client('stepfunctions', endpoint_url="http://localhost:4566", use_ssl=False, aws_access_key_id="foobar", aws_secret_access_key="foobar", region_name="eu-central-1")
+	#sfresponse = sfclient.list_state_machines()['stateMachines']
+        #for sfn in sfresponse:
+        #  if sfn['name'] == name:
+        #    sfn_arn = sfn['stateMachineArn']
+        #response = stepFunction.start_execution(stateMachineArn=sfn_arn, input = json.dumps(input, indent=4))
+        #return response
         
         stepFunction = boto3.client('stepfunctions', endpoint_url="http://localhost:4566", use_ssl=False, aws_access_key_id="foobar", aws_secret_access_key="foobar", region_name="eu-central-1")
         response = stepFunction.start_execution(
@@ -26,6 +36,5 @@ def lambda_handler(event, context):
         return response
     except Exception as e:
         print(e)
-        print('Error getting object {} from bucket {}. Make sure they exist and your bucket is in the same region as this function.'.format(key, bucket))
         raise e
 
